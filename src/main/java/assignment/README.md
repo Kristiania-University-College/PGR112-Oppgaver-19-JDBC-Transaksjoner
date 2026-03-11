@@ -1,25 +1,27 @@
-# Oppgaver 19 Ekstra - Transaksjoner
+# Oppgaver 19 - Transaksjoner
 
 > All tasks are completed within this `assignment`-package
 
-
-Alle oppgavene omhandler World. Ta derfor gjerne utgangspunkt i world-prosjektet ditt, eller bruk tidligere løsningsforslag.
-Ekstra oppgaven  er ganske omfattende, og du får trent på både lesing fra fil og JDBC (transaksjoner).
+Det er fint å kunne lære hvordan vi kan redusere problemer med NullPointerException. 
+Og hvordan kan vi legge inn rader der tabellen benytter AUTO_INCREMENT? Alle oppgavene omhandler World. 
+Ta derfor gjerne utgangspunkt i world-prosjektet ditt, eller bruk tidligere løsningsforslag.
 
 Lykke til med oppgavene!
 
 
-## Ekstra Oppgave  - endre world-db (testes ikke)
-Vi tenker oss et scenario der Australia skal splittes opp i ulike land basert på tidligere stater:
-- New South Wales
-- Victoria
-- Queensland
-- Western Australia
-- South Australia
-- Tasmania
-  Du må sørge for at world-databasen blir endret tilsvarende, og du skal gjøre det via JDBC. I mappen files finner du en fil (australia.txt) som beskriver de ulike nye landene, hvilke byer (id) som ligger i dem, og hvilke språk som snakkes i de nye landene. 
-- Gjør alle endringer i én transaksjon slik at du sørger for at databasen ikke havner i en «mellomtilstand».
+## Oppgave 1 - autoinkrement (todo testing)
 
+I forrige økt skulle du implementere CRUD-operasjoner. 
+Ved en Create (INSERT) – hvordan la du inn primærnøkkel? 
+Det er ikke alltid hensiktsmessig for en bruker å skulle bry seg om verdier på primærnøkler. 
+I hvert fall ikke hvis de som blir automatisk generert i databasen. 
+Sørg for å benytte en Create (INSERT) der primærnøkkel blir automatisk satt av databasen. 
+Sørg også for å hente ut verdien på den nye nøkkelen.
+
+## Oppgave 2 - autoinkrement (todo testing)
+
+Sørg for at metodene i prosjektet ditt returnerer en Optional der 
+metodene kan returnere en objektreferanse eller «ingen verdi» (null).
 
 
 > Noen tips:
