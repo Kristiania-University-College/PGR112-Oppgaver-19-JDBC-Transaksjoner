@@ -1,0 +1,66 @@
+name: Autograding Tests
+'on':
+  - push
+  - repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5.0.1
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5.1.0
+        with:
+          distribution: 'oracle'
+          java-version: '25'
+          cache: 'maven'
+      - name: Test_for_SQL_injection
+        id: task01
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Test_for_SQL_injection
+          setup-command: ''
+          command: mvn -Dtest=TestAssignment#task01 test
+          timeout: 10
+          max-score: 30
+      - name: Test_addCity
+        id: task02
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Test_addCity
+          setup-command: ''
+          command: mvn -Dtest=TestAssignment#task02 test
+          timeout: 10
+          max-score: 20
+      - name: Test_updateCity
+        id: task03
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Test_updateCity
+          setup-command: ''
+          command: mvn -Dtest=TestAssignment#task03 test
+          timeout: 10
+          max-score: 30
+      - name: Test_deleteCity
+        id: task04
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Test_deleteCity
+          setup-command: ''
+          command: mvn -Dtest=TestAssignment#task04 test
+          timeout: 10
+          max-score: 20
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          TASK01_RESULTS: "${{steps.task01.outputs.result}}"
+          TASK02_RESULTS: "${{steps.task02.outputs.result}}"
+          TASK03_RESULTS: "${{steps.task03.outputs.result}}"
+          TASK04_RESULTS: "${{steps.task04.outputs.result}}"
+        with:
+          runners: task01,task02,task03,task04
