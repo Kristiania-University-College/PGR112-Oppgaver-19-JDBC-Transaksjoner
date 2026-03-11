@@ -1,10 +1,8 @@
 package assignment;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import assignment.*;
 
 public class WorldDao {
     private final Connection conn;
@@ -15,6 +13,9 @@ public class WorldDao {
     private static final String ADD_CITY_SQL = "INSERT INTO city VALUES (?,?,?,?,?)";
     private static final String UPDATE_CITY_SQL = "UPDATE City SET Name=?, CountryCode=?, District=?, Population=? WHERE id=?";
     private static final String DELETE_CITY_SQL = "DELETE FROM City WHERE id=?";
+    // Nye oppgaver 19
+    private static final String ADD_CITY_NO_ID_SQL = "INSERT INTO city (name, countryCode, district, population) VALUES (?,?,?,?)";
+    private static final String GET_CITY_SQL = "SELECT ID, name, countryCode, district, population FROM City WHERE ID = ?";
 
     // I added a string to continent mapper here to use an ENUM for continent in Country
     private static final Map<String, Continent> continentMapper;
@@ -34,6 +35,47 @@ public class WorldDao {
 
 
         this.conn = conn;
+    }
+
+    // oppgave 1
+
+    public int addCity(String name, String countryCode, String district, int population) throws SQLException {
+        try (
+             PreparedStatement stmt = conn.prepareStatement(ADD_CITY_NO_ID_SQL, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            stmt.setString(1, name);
+            stmt.setString(2, countryCode);
+            stmt.setString(3, district);
+            stmt.setInt(4, population);
+            int rowsAffected = stmt.executeUpdate();
+            if(rowsAffected == 1){
+                try(ResultSet keys = stmt.getGeneratedKeys()){
+                    if(keys.next()){
+                        return keys.getInt(1);
+                    }
+                }
+            }
+            return 0;
+        }
+    }
+
+    // oppgave 2
+    public Optional<City> getCity(int id) throws SQLException {
+        try (
+             PreparedStatement stmt = conn.prepareStatement(GET_CITY_SQL);
+        ) {
+            stmt.setInt(1, id);
+            try(ResultSet rs = stmt.executeQuery()){
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String countryCode = rs.getString("countryCode");
+                    String district = rs.getString("district");
+                    int population = rs.getInt("population");
+                    return Optional.of(new City(id, name, countryCode, district, population));
+                }
+            }
+            return Optional.empty();
+        }
     }
 
     public List<Country> getAllCountries() throws SQLException {

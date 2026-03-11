@@ -18,7 +18,7 @@ I hvert fall ikke hvis de som blir automatisk generert i databasen.
 Sørg for å benytte en Create (INSERT) der primærnøkkel blir automatisk satt av databasen. 
 Sørg også for å hente ut verdien på den nye nøkkelen.
 
-## Oppgave 2 - autoinkrement (todo testing)
+## Oppgave 2 - optional (todo testing)
 
 Sørg for at metodene i prosjektet ditt returnerer en Optional der 
 metodene kan returnere en objektreferanse eller «ingen verdi» (null).

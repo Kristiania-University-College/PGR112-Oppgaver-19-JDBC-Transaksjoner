@@ -3,6 +3,7 @@ package assignment;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Program {
@@ -26,8 +27,19 @@ public class Program {
                 case 4 -> addCity();
                 case 5 -> updateCity();
                 case 6 -> deleteCity();
-                case 7 -> quit();
+                case 7 -> getCity();
+                case 8 -> quit();
             }
+        }
+    }
+
+    private void getCity() throws SQLException {
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Enter id:");
+        int id = Integer.parseInt(userInput.nextLine());
+        Optional<City> city = worldDao.getCity(id);
+        if(city.isPresent()){
+            System.out.println(city.get().name());
         }
     }
 
@@ -66,8 +78,9 @@ public class Program {
 
     private void addCity() throws SQLException {
         Scanner userInput = new Scanner(System.in);
-        System.out.println("Enter id:");
-        int id = Integer.parseInt(userInput.nextLine());
+        /** oppgave 1 autoinkrement
+        * System.out.println("Enter id:");
+        * int id = Integer.parseInt(userInput.nextLine());*/
         System.out.println("Enter name:");
         String name = userInput.nextLine();
         System.out.println("Enter country code:");
@@ -76,8 +89,10 @@ public class Program {
         String district = userInput.nextLine();
         System.out.println("Enter population:");
         int population = Integer.parseInt(userInput.nextLine());
-        City newCity = new City(id, name, countryCode, district, population);
-        int rowsAffected = worldDao.addCity(newCity);
+        /** oppgave 1 autoinkrement
+        *City newCity = new City( name, countryCode, district, population);
+         * **/
+        int rowsAffected = worldDao.addCity(name, countryCode, district, population);
         if(rowsAffected==1){
             System.out.println("City added!");
         } else{
@@ -118,13 +133,14 @@ public class Program {
     }
 
     private void presentMainMenu() {
-        System.out.println("You have 7 choices:");
+        System.out.println("You have 8 choices:");
         System.out.println("1: Get all countries");
         System.out.println("2: Get all cities");
         System.out.println("3: Get cities by country code");
         System.out.println("4: Add city");
         System.out.println("5: Update city");
         System.out.println("6: Delete city");
-        System.out.println("7: Quit");
+        System.out.println("7: Get city");
+        System.out.println("8: Quit");
     }
 }
